@@ -19,8 +19,7 @@ kiwisolver==1.5.0
 matplotlib==3.11.1
 mediapipe==1.0.0
 numpy==2.5.2
-opencv-contrib-python==5.0.0.93
-opencv-python==5.0.0.93
+opencv-python-headless==5.0.0.93
 packaging==26.3
 passlib==1.7.4
 pillow==12.3.0
@@ -31,7 +30,6 @@ pyparsing==3.3.2
 python-dateutil==2.9.0.post0
 python-multipart==0.0.32
 six==1.17.0
-sounddevice==0.5.5
 SQLAlchemy==2.0.52
 starlette==1.6.0
 typing-inspection==0.4.4
