@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIII - Conocimiento</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css?v=8">
+</head>
+<body>
+    <header class="cabecera-principal">
+        <div class="contenedor-logo">
+            <img src="logo.png" alt="LUMIII Logo" class="logo">
+            <span class="titulo-marca">LUMIII</span>
+        </div>
+
+        <nav class="navegacion">
+            <ul>
+                <li><a href="index.htm">Análisis</a></li>
+                <li><a href="catalogo-completo.html">Catálogo</a></li>
+                <li><a href="conocimiento.html" class="activo">Conocimiento</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ¿QUÉ ES LUMIII? -->
+        <section class="contenedor contenedor-ancho seccion-intro-lumiii">
+            <img src="logo.png" alt="LUMIII Logo" class="logo-intro">
+            <h1>¿Qué es LUMIII?</h1>
+            <p class="texto-intro">
+                LUMIII es un Sistema Experto de Inteligencia Artificial que actúa como asesor de imagen
+                y vendedor autónomo para tiendas virtuales:
+            </p>
+
+            <div class="lista-pasos-lumiii">
+                <div class="paso-lumiii">
+                    <span class="numero-paso">1</span>
+                    <div>
+                        <h3>Diagnóstico Biométrico</h3>
+                        <p>Analiza el rostro del usuario (vía cámara o video) para identificar su <strong>Morfología</strong>
+                        (forma del rostro: redondo, ovalado, etc.) y su <strong>Colorimetría</strong>
+                        (subtono de piel: invierno, verano, otoño, primavera).</p>
+                    </div>
+                </div>
+
+                <div class="paso-lumiii">
+                    <span class="numero-paso">2</span>
+                    <div>
+                        <h3>Motor de Inferencia</h3>
+                        <p>Cruza estos rasgos mediante reglas lógicas ("SI el rostro es redondo... ENTONCES...")
+                        para determinar qué cortes, prendas y colores le favorecen.</p>
+                    </div>
+                </div>
+
+                <div class="paso-lumiii">
+                    <span class="numero-paso">3</span>
+                    <div>
+                        <h3>Vendedor Autónomo y Predictivo</h3>
+                        <p>Busca automáticamente en el catálogo (usando códigos alfanuméricos/SKUs) para recomendar
+                        la ropa ideal. Además, utiliza Machine Learning para analizar el histórico de ventas y
+                        predecir tendencias de demanda, optimizando el inventario del negocio.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COLORIMETRÍA -->
+        <section class="contenedor contenedor-ancho seccion-conocimiento">
+            <div class="bloque-conocimiento">
+                <div class="texto-conocimiento">
+                    <h2>Colorimetría</h2>
+                    <p>
+                        La colorimetría estudia el subtono natural de la piel, el cabello y los ojos para
+                        determinar qué paleta de colores favorece más a cada persona. LUMIII clasifica este
+                        subtono en cuatro "estaciones", cada una asociada a una gama de colores:
+                    </p>
+                    <ul class="lista-estaciones">
+                        <li><strong>Invierno:</strong> colores fríos e intensos — negro, plateado, azul marino.</li>
+                        <li><strong>Verano:</strong> tonos suaves y fríos — gris perla, rosa palo, azul cielo.</li>
+                        <li><strong>Otoño:</strong> tonos cálidos y terrosos — carey, bronce, verde oliva, mostaza.</li>
+                        <li><strong>Primavera:</strong> colores cálidos y luminosos — dorado, coral, melocotón, turquesa.</li>
+                    </ul>
+                </div>
+                <div class="imagen-conocimiento">
+                    <img src="conocimiento/colorimetria.png" alt="Estaciones de colorimetría">
+                </div>
+            </div>
+        </section>
+
+        <!-- MORFOLOGÍA -->
+        <section class="contenedor contenedor-ancho seccion-conocimiento">
+            <div class="bloque-conocimiento bloque-conocimiento-invertido">
+                <div class="texto-conocimiento">
+                    <h2>Morfología</h2>
+                    <p>
+                        La morfología facial estudia las proporciones del rostro (largo, ancho de pómulos, frente
+                        y mandíbula) para identificar su forma general. LUMIII reconoce cuatro tipos principales
+                        y qué estilo de montura favorece a cada uno:
+                    </p>
+                    <ul class="lista-estaciones">
+                        <li><strong>Redondo:</strong> monturas angulares o rectangulares aportan estructura y contrastan con la suavidad de los rasgos.</li>
+                        <li><strong>Cuadrado:</strong> monturas redondeadas u ovaladas suavizan los ángulos marcados de la mandíbula.</li>
+                        <li><strong>Diamante:</strong> monturas ovaladas o cat-eye suave equilibran pómulos prominentes.</li>
+                        <li><strong>Ovalado:</strong> rostro versátil, casi cualquier forma de montura queda bien.</li>
+                    </ul>
+                </div>
+                <div class="imagen-conocimiento">
+                    <img src="conocimiento/morfologia.png" alt="Formas de rostro y morfología">
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="auth.js?v=8"></script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIII - Panel del Vendedor y Analítica</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=7">
+</head>
+<body>
+    <header class="cabecera-principal">
+        <div class="contenedor-logo">
+            <img src="logo.png" alt="LUMIII Logo" class="logo">
+            <span class="titulo-marca">LUMIII</span>
+        </div>
+        <nav class="navegacion">
+            <ul>
+                <li><a href="index.htm">Análisis</a></li>
+                <li><a href="catalogo-completo.html">Catálogo</a></li>
+                <li><a href="conocimiento.html">Conocimiento</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Mensaje "verificando permisos" mientras auth.js resuelve la sesión -->
+        <div id="mensajeCargandoPermisos" class="contenedor">
+            <p class="mensaje-cargando">Verificando permisos de administrador...</p>
+        </div>
+
+        <!-- Mensaje "sin permisos" si el usuario NO es admin -->
+        <div id="mensajeSinPermisos" class="contenedor" style="display: none;">
+            <h1>Acceso restringido</h1>
+            <p style="color: var(--tinta-suave);">Esta zona es exclusiva para administradores de LUMIII.</p>
+            <div class="botones-aviso">
+                <a href="login.html" class="boton-destacado-link">Iniciar sesión como Admin</a>
+                <a href="index.htm" class="boton-secundario-link">Ir al Inicio</a>
+            </div>
+        </div>
+
+        <!-- Panel del vendedor (visible solo si es admin) -->
+        <div id="vistaPanel" style="display: none;">
+            <div class="contenedor contenedor-ancho barra-panel">
+                <div>
+                    <h1 style="margin: 0;">Panel de Control y Negocio</h1>
+                    <p class="subtitulo-panel">Inteligencia de Demanda, Métricas y Catálogo de LUMIII</p>
+                </div>
+            </div>
+
+            <!-- Pestañas para alternar entre Estadísticas y Catálogo -->
+            <div class="pestanas-admin" id="pestanasAdmin">
+                <button class="pestana-admin activa" data-seccion="estadisticas">📊 Métricas y Demanda</button>
+                <button class="pestana-admin" data-seccion="catalogo">📦 Gestión de Catálogo</button>
+            </div>
+
+            <!-- ============================================================ -->
+            <!--  SECCIÓN 1: DASHBOARD DE ESTADÍSTICAS Y DEMANDA              -->
+            <!-- ============================================================ -->
+            <div id="seccionEstadisticas" class="seccion-dashboard-wrap">
+                <p id="cargandoStats" class="mensaje-cargando">Cargando métricas de negocio...</p>
+                <p id="errorStats" class="mensaje-error" style="display: none;"></p>
+
+                <div id="contenidoStats" style="display: none;">
+                    <!-- TARJETAS KPI -->
+                    <div class="kpis-grid">
+                        <div class="tarjeta-kpi kpi-usuarios">
+                            <div class="kpi-icono">👥</div>
+                            <div class="kpi-info">
+                                <span class="kpi-titulo">Usuarios Registrados</span>
+                                <span class="kpi-valor" id="kpiUsuarios">0</span>
+                                <small class="kpi-sub">Clientes en base de datos</small>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta-kpi kpi-analisis">
+                            <div class="kpi-icono">🎯</div>
+                            <div class="kpi-info">
+                                <span class="kpi-titulo">Diagnósticos Faciales</span>
+                                <span class="kpi-valor" id="kpiAnalisis">0</span>
+                                <small class="kpi-sub">Análisis de morfología y color</small>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta-kpi kpi-intereses">
+                            <div class="kpi-icono">❤️</div>
+                            <div class="kpi-info">
+                                <span class="kpi-titulo">Intención de Compra</span>
+                                <span class="kpi-valor" id="kpiIntereses">0</span>
+                                <small class="kpi-sub">Clics en "Me interesa"</small>
+                            </div>
+                        </div>
+
+                        <div class="tarjeta-kpi kpi-productos">
+                            <div class="kpi-icono">📦</div>
+                            <div class="kpi-info">
+                                <span class="kpi-titulo">Productos Activos</span>
+                                <span class="kpi-valor" id="kpiProductos">0</span>
+                                <small class="kpi-sub">Modelos en venta</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOP 10 PRODUCTOS MÁS DESEADOS -->
+                    <section class="seccion-admin-card">
+                        <div class="cabecera-seccion-stats">
+                            <h2>🔥 Top 10 Productos Más Deseados (Mayor Intención de Compra)</h2>
+                            <p class="subtexto-seccion">Modelos que más veces han sido guardados por los clientes en su lista de favoritos.</p>
+                        </div>
+                        <div class="tabla-wrap">
+                            <table class="tabla-productos">
+                                <thead>
+                                    <tr>
+                                        <th>Img</th>
+                                        <th>SKU</th>
+                                        <th>Producto</th>
+                                        <th>Categoría</th>
+                                        <th>Código</th>
+                                        <th>Precio</th>
+                                        <th>Popularidad (Favoritos)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cuerpoTopProductos"></tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- DISTRIBUCIÓN BIOMÉTRICA DE CLIENTES (2 COLUMNAS PERFECTAMENTE ALINEADAS) -->
+                    <div class="grid-dos-columnas">
+                        <!-- Columna Morfología -->
+                        <div class="card-columna-stat">
+                            <div class="cabecera-columna">
+                                <h3>📐 Distribución de Rostros (Morfología)</h3>
+                                <p class="subtexto-columna">Proporciones faciales más frecuentes en tu audiencia.</p>
+                            </div>
+                            <div id="graficaMorfologia" class="grafica-barras"></div>
+                            <div id="tipMorfologia" class="caja-insight"></div>
+                        </div>
+
+                        <!-- Columna Colorimetría -->
+                        <div class="card-columna-stat">
+                            <div class="cabecera-columna">
+                                <h3>🎨 Distribución de Colorimetría (Estaciones)</h3>
+                                <p class="subtexto-columna">Paletas y subtonos predominantes en tus clientes.</p>
+                            </div>
+                            <div id="graficaColorimetria" class="grafica-barras"></div>
+                            <div id="tipColorimetria" class="caja-insight"></div>
+                        </div>
+                    </div>
+
+                    <!-- DEMANDA POR CATEGORÍA DE PRODUCTO -->
+                    <section class="seccion-admin-card">
+                        <h2>👚 Demanda por Tipo de Prenda / Categoría</h2>
+                        <div id="gridCategoriasInteres" class="grid-categorias-stats"></div>
+                    </section>
+
+                    <!-- ACTIVIDAD RECIENTE -->
+                    <section class="seccion-admin-card">
+                        <h2>🕒 Diagnósticos Faciales Recientes</h2>
+                        <div class="tabla-wrap">
+                            <table class="tabla-productos">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Cliente</th>
+                                        <th>Morfología</th>
+                                        <th>Colorimetría</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cuerpoActividadReciente"></tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!--  SECCIÓN 2: GESTIÓN DE CATÁLOGO (CRUD DE PRODUCTOS)          -->
+            <!-- ============================================================ -->
+            <div id="seccionCatalogo" class="seccion-dashboard-wrap" style="display: none;">
+                <section class="seccion-admin-card">
+                    <h2>➕ Agregar producto nuevo</h2>
+                    <form id="formNuevoProducto" class="form-admin">
+                        <div class="fila-form">
+                            <label>
+                                <span>SKU</span>
+                                <input type="text" name="sku" placeholder="LEN-CIN-01" required
+                                       pattern="[A-Za-z0-9]+-[A-Za-z]+-[0-9]+"
+                                       title="Formato: PREFIJO-CODIGO-NUMERO (ej. LEN-CIN-01)">
+                                <small>Formato: PREFIJO-CODIGO-NUMERO</small>
+                            </label>
+                            <label>
+                                <span>Nombre / Descripción</span>
+                                <input type="text" name="nombre" placeholder="Lentes negros clásicos" required>
+                            </label>
+                        </div>
+                        <div class="fila-form">
+                            <label>
+                                <span>Categoría</span>
+                                <select name="categoria" required>
+                                    <option value="">— Elige —</option>
+                                    <option value="lentes">Lentes</option>
+                                    <option value="bufandas">Bufandas</option>
+                                    <option value="cintillo">Cintillos</option>
+                                    <option value="chaqueta">Chaquetas</option>
+                                    <option value="franelas">Franelas</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span>Código de resultado</span>
+                                <select name="codigo_resultado" required>
+                                    <option value="">— Elige —</option>
+                                    <optgroup label="Colorimetría">
+                                        <option value="CIN">CIN — Invierno</option>
+                                        <option value="CVE">CVE — Verano</option>
+                                        <option value="COT">COT — Otoño</option>
+                                        <option value="CPR">CPR — Primavera</option>
+                                    </optgroup>
+                                    <optgroup label="Morfología">
+                                        <option value="MRE">MRE — Redondo</option>
+                                        <option value="MCU">MCU — Cuadrado</option>
+                                        <option value="MDI">MDI — Diamante</option>
+                                        <option value="MOV">MOV — Ovalado</option>
+                                    </optgroup>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="fila-form">
+                            <label>
+                                <span>Precio (opcional)</span>
+                                <input type="number" name="precio" placeholder="0.00" step="0.01" min="0">
+                            </label>
+                            <label>
+                                <span>Stock</span>
+                                <input type="number" name="stock" value="0" min="0" required>
+                            </label>
+                        </div>
+                        <div class="fila-form">
+                            <label class="ancho-completo">
+                                <span>Imagen del producto (.png)</span>
+                                <input type="file" name="imagen" accept="image/png" required>
+                            </label>
+                        </div>
+                        <button type="submit">Guardar producto</button>
+                        <p id="mensajeNuevoProducto" class="mensaje-inline" style="display: none;"></p>
+                    </form>
+                </section>
+
+                <section class="seccion-admin-card">
+                    <div class="encabezado-tabla">
+                        <h2>📦 Catálogo actual (<span id="contadorProductos">0</span>)</h2>
+                        <div class="filtros-tabla">
+                            <select id="filtroCategoria">
+                                <option value="">Todas las categorías</option>
+                                <option value="lentes">Lentes</option>
+                                <option value="bufandas">Bufandas</option>
+                                <option value="cintillo">Cintillos</option>
+                                <option value="chaqueta">Chaquetas</option>
+                                <option value="franelas">Franelas</option>
+                            </select>
+                            <select id="filtroCodigo">
+                                <option value="">Todos los códigos</option>
+                                <option value="CIN">CIN — Invierno</option>
+                                <option value="CVE">CVE — Verano</option>
+                                <option value="COT">COT — Otoño</option>
+                                <option value="CPR">CPR — Primavera</option>
+                                <option value="MRE">MRE — Redondo</option>
+                                <option value="MCU">MCU — Cuadrado</option>
+                                <option value="MDI">MDI — Diamante</option>
+                                <option value="MOV">MOV — Ovalado</option>
+                            </select>
+                            <label class="filtro-checkbox">
+                                <input type="checkbox" id="filtroSoloActivos" checked>
+                                Solo activos
+                            </label>
+                        </div>
+                    </div>
+
+                    <p id="mensajeCargando" class="mensaje-cargando">Cargando productos...</p>
+                    <p id="mensajeErrorTabla" class="mensaje-error" style="display: none;"></p>
+
+                    <div class="tabla-wrap">
+                        <table class="tabla-productos" id="tablaProductos" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>Img</th>
+                                    <th>SKU</th>
+                                    <th>Nombre</th>
+                                    <th>Cat.</th>
+                                    <th>Código</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Activo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoTabla"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="auth.js?v=7"></script>
+    <script src="admin.js?v=7"></script>
+</body>
+</html>

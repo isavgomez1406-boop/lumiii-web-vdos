@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIII - Catálogo Completo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css?v=4">
+</head>
+<body>
+    <header class="cabecera-principal">
+        <div class="contenedor-logo">
+            <img src="logo.png" alt="LUMIII Logo" class="logo">
+            <span class="titulo-marca">LUMIII</span>
+        </div>
+
+        <nav class="navegacion">
+            <ul>
+                <li><a href="index.htm">Análisis</a></li>
+                <li><a href="catalogo-completo.html" class="activo">Catálogo</a></li>
+                <li><a href="conocimiento.html">Conocimiento</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="contenedor contenedor-ancho">
+            <h1>Catálogo Completo</h1>
+            <p>Todos nuestros modelos, organizados por estación de color y por forma de rostro.</p>
+        </div>
+
+        <!-- Pestañas para alternar entre Colorimetría, Morfología y Productos -->
+        <div class="pestanas-catalogo" id="pestanasCatalogo">
+            <button class="pestana activa" data-tab="colorimetria">Colorimetría</button>
+            <button class="pestana" data-tab="morfologia">Morfología</button>
+            <button class="pestana" data-tab="productos">Productos</button>
+        </div>
+
+        <p id="textoCargando" class="mensaje-cargando">Cargando catálogo...</p>
+        <p id="textoErrorCatalogo" class="mensaje-error" style="display: none;"></p>
+
+        <div id="vistaColorimetria" class="vista-catalogo"></div>
+        <div id="vistaMorfologia" class="vista-catalogo" style="display: none;"></div>
+        <div id="vistaProductos" class="vista-catalogo" style="display: none;"></div>
+    </main>
+    <script src="auth.js?v=4"></script>
+    <script src="catalogo-completo.js?v=4"></script>
+</body>
+</html>

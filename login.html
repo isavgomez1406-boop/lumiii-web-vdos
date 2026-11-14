@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIII - Iniciar sesión</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="cabecera-principal">
+        <div class="contenedor-logo">
+            <img src="logo.png" alt="LUMIII Logo" class="logo">
+            <span class="titulo-marca">LUMIII</span>
+        </div>
+        <nav class="navegacion">
+            <ul>
+                <li><a href="index.htm">Análisis</a></li>
+                <li><a href="catalogo-completo.html">Catálogo</a></li>
+                <li><a href="conocimiento.html">Conocimiento</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="contenedor contenedor-auth">
+            <h1>Iniciar sesión</h1>
+            <p class="subtitulo-auth">Accede a tu cuenta de LUMIII</p>
+
+            <form id="formLogin" class="form-auth">
+                <label>
+                    <span>Correo</span>
+                    <input type="email" name="correo" placeholder="tucorreo@ejemplo.com" required autocomplete="email">
+                </label>
+                <label>
+                    <span>Contraseña</span>
+                    <input type="password" name="password" placeholder="••••••••" required autocomplete="current-password">
+                </label>
+
+                <button type="submit">Entrar</button>
+                <p id="mensajeLogin" class="mensaje-inline" style="display: none;"></p>
+            </form>
+
+            <p class="pie-auth">
+                ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
+            </p>
+        </div>
+    </main>
+
+    <script src="auth.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>

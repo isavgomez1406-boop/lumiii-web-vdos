@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIII - Sistema Inteligente Facial</title>
+    
+    <!-- CONEXIÓN A GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css?v=4">
+</head>
+<body>
+    <!-- NUEVA CABECERA (HEADER) -->
+    <header class="cabecera-principal">
+        <div class="contenedor-logo">
+            <!-- Si tienes un logo, asegúrate de guardarlo como logo.png en tu carpeta -->
+            <img src="logo.png" alt="LUMIII Logo" class="logo">
+            <span class="titulo-marca">LUMIII</span>
+        </div>
+        
+        <nav class="navegacion">
+            <ul>
+                <li><a href="index.htm" class="activo">Análisis</a></li>
+                <li><a href="catalogo-completo.html">Catálogo</a></li>
+                <li><a href="conocimiento.html">Conocimiento</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <div class="contenedor">
+            <h1>Análisis de Morfología y Colorimetría</h1>
+            <p>Sube una imagen frontal de tu rostro para ver qué productos te recomendamos según la forma de tu rostro y tu estación de color.</p>
+
+            <div class="caja-subida">
+                <input type="file" id="inputFoto" accept="image/*">
+                <button id="btnAnalizar">Iniciar Análisis</button>
+            </div>
+
+            <div class="visor-imagen">
+                <img id="vistaPrevia" src="" alt="Vista previa de tu rostro" style="display: none;">
+            </div>
+
+            <p id="textoError" class="mensaje-error" style="display: none;"></p>
+        </div>
+
+        <div class="paneles-resultado" id="panelesResultado" style="display: none;">
+            <!-- Columna izquierda: Colorimetría -->
+            <div class="panel-columna">
+                <h2>Colorimetría</h2>
+                <span class="etiqueta">Tu estación de color</span>
+                <p id="textoEstacion" class="destacado">Procesando...</p>
+                <p id="textoAsesoriaEstacion" class="asesoria"></p>
+                <div id="galeriaEstacion" class="galeria-modelos"></div>
+            </div>
+
+            <!-- Columna derecha: Morfología -->
+            <div class="panel-columna">
+                <h2>Morfología</h2>
+                <span class="etiqueta">Forma de tu rostro</span>
+                <p id="textoMorfologia" class="destacado">Procesando...</p>
+                <p id="textoAsesoriaMorfologia" class="asesoria"></p>
+                <div id="galeriaMorfologia" class="galeria-modelos"></div>
+            </div>
+        </div>
+    </main>
+    <script src="auth.js?v=4"></script>
+    <script src="script.js?v=4"></script>
+</body>
+</html>

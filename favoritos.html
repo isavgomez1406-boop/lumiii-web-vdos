@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIII - Mis Favoritos</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css?v=5">
+</head>
+
+<body>
+    <!-- CABECERA PRINCIPAL -->
+    <header class="cabecera-principal">
+        <div class="contenedor-logo">
+            <img src="logo.png" alt="LUMIII Logo" class="logo">
+            <span class="titulo-marca">LUMIII</span>
+        </div>
+
+        <nav class="navegacion">
+            <ul>
+                <li><a href="index.htm">Análisis</a></li>
+                <li><a href="catalogo-completo.html">Catálogo</a></li>
+                <li><a href="conocimiento.html">Conocimiento</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <div class="contenedor contenedor-ancho">
+            <h1>Mis Productos Favoritos ❤️</h1>
+            <p>Aquí tienes guardadas todas las prendas y accesorios que marcaste con <strong>"Me interesa"</strong> durante tu análisis o explorando el catálogo.</p>
+
+            <!-- VISTA: NO LOGUEADO -->
+            <div id="vistaSinSesion" class="bloque-aviso-sesion" style="display: none;">
+                <p class="texto-aviso">Debes iniciar sesión para ver y gestionar tus productos guardados.</p>
+                <div class="botones-aviso">
+                    <a href="login.html" class="boton-destacado-link">Iniciar Sesión</a>
+                    <a href="registro.html" class="boton-secundario-link">Crear Cuenta</a>
+                </div>
+            </div>
+
+            <!-- VISTA: LOGUEADO -->
+            <div id="vistaConSesion" style="display: none;">
+                <p id="textoCargando" class="mensaje-cargando">Cargando tus favoritos...</p>
+                <p id="textoError" class="mensaje-error" style="display: none;"></p>
+
+                <!-- BANNER RESUMEN Y PEDIDO POR WHATSAPP -->
+                <div id="bannerResumen" class="banner-resumen-favoritos" style="display: none;">
+                    <div class="info-resumen">
+                        <span id="contadorTotal" class="badge-contador">0 productos</span>
+                        <div id="montoTotal" class="monto-total">Total estimado: $0.00</div>
+                        <p class="subtexto-resumen">Haz clic abajo para enviar tu lista de favoritos al vendedor y concretar tu compra.</p>
+                    </div>
+                    <div class="acciones-resumen">
+                        <button id="btnPedirTodosWhatsApp" class="boton-whatsapp boton-whatsapp-grande">
+                            <span class="icono-wa">📱</span> Pedir lista completa por WhatsApp
+                        </button>
+                    </div>
+                </div>
+
+                <!-- VISTA VACÍA (0 FAVORITOS) -->
+                <div id="vistaVacia" class="vista-vacia-favoritos" style="display: none;">
+                    <div class="icono-vacio">🛍️</div>
+                    <h2>Aún no tienes favoritos guardados</h2>
+                    <p>Cuando realices tu análisis facial o veas el catálogo, dale clic al botón <strong>"♡ Me interesa"</strong> en los modelos que más te gusten.</p>
+                    <div class="botones-aviso">
+                        <a href="index.htm" class="boton-destacado-link">Hacer Análisis Facial</a>
+                        <a href="catalogo-completo.html" class="boton-secundario-link">Explorar Catálogo</a>
+                    </div>
+                </div>
+
+                <!-- GRILLA DE PRODUCTOS FAVORITOS -->
+                <div id="grillaFavoritos" class="grilla-favoritos" style="display: none;"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="auth.js?v=5"></script>
+    <script src="favoritos.js?v=5"></script>
+</body>
+
+</html>

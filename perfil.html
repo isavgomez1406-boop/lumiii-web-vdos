@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIII - Mi Perfil y Diagnóstico</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css?v=8">
+</head>
+
+<body>
+    <!-- CABECERA PRINCIPAL -->
+    <header class="cabecera-principal">
+        <div class="contenedor-logo">
+            <img src="logo.png" alt="LUMIII Logo" class="logo">
+            <span class="titulo-marca">LUMIII</span>
+        </div>
+
+        <nav class="navegacion">
+            <ul>
+                <li><a href="index.htm">Análisis</a></li>
+                <li><a href="catalogo-completo.html">Catálogo</a></li>
+                <li><a href="conocimiento.html">Conocimiento</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <div class="contenedor-perfil-wrap">
+
+            <!-- VISTA: NO LOGUEADO -->
+            <div id="vistaSinSesion" class="bloque-aviso-sesion" style="display: none;">
+                <p class="texto-aviso">Debes iniciar sesión para consultar tu perfil y diagnóstico permanente.</p>
+                <div class="botones-aviso">
+                    <a href="login.html" class="boton-destacado-link">Iniciar Sesión</a>
+                    <a href="registro.html" class="boton-secundario-link">Crear Cuenta</a>
+                </div>
+            </div>
+
+            <!-- VISTA: LOGUEADO -->
+            <div id="vistaConSesion" style="display: none;">
+                <p id="textoCargando" class="mensaje-cargando">Cargando tu perfil y diagnóstico...</p>
+                <p id="textoError" class="mensaje-error" style="display: none;"></p>
+
+                <div id="contenidoPerfil" style="display: none;">
+                    <!-- TARJETA CABECERA DE USUARIO -->
+                    <div class="tarjeta-cabecera-perfil">
+                        <div class="avatar-perfil" id="avatarLetra">U</div>
+                        <div class="info-usuario-perfil">
+                            <div class="fila-nombre-badge">
+                                <h1 id="nombreUsuario" class="nombre-perfil">Cargando...</h1>
+                                <span id="badgeRol" class="badge-rol">Cliente</span>
+                            </div>
+                            <p id="correoUsuario" class="correo-perfil">correo@ejemplo.com</p>
+                            <small id="fechaRegistro" class="fecha-registro-perfil">Miembro desde ...</small>
+                        </div>
+                        <div class="accesos-rapidos-perfil">
+                            <a href="favoritos.html" class="boton-acceso-fav">
+                                <span>❤️ Mis Favoritos</span>
+                                <strong id="contadorFavsPerfil">0</strong>
+                            </a>
+                            <a href="index.htm" class="boton-acceso-analisis">
+                                <span>📸 Nuevo Análisis</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- ESTADO A: TIENE DIAGNÓSTICO PERMANENTE -->
+                    <div id="bloqueConDiagnostico" style="display: none;">
+                        <div class="tarjeta-diagnostico-permanente">
+                            <div class="cabecera-diagnostico">
+                                <div>
+                                    <span class="etiqueta-adn">🧬 Tu ADN Facial Permanente</span>
+                                    <h2>Diagnóstico Guardado</h2>
+                                    <p class="subtexto-diagnostico">Basado en tu último análisis facial biométrico del <strong id="fechaUltimoAnalisis">—</strong></p>
+                                </div>
+                                <a href="index.htm" class="boton-repetir-analisis">🔄 Volver a analizar</a>
+                            </div>
+
+                            <!-- 2 PANELES: MORFOLOGÍA Y COLORIMETRÍA -->
+                            <div class="grid-diagnostico-perfil">
+                                <!-- Columna Morfología -->
+                                <div class="card-diagnostico-col">
+                                    <div class="icono-tipo-diag">📐</div>
+                                    <span class="etiqueta-col-diag">Forma de tu Rostro</span>
+                                    <h3 id="resultadoMorfologiaPerfil" class="resultado-diag-titulo">Procesando...</h3>
+                                    <p id="asesoriaMorfologiaPerfil" class="asesoria-diag-texto"></p>
+                                </div>
+
+                                <!-- Columna Colorimetría -->
+                                <div class="card-diagnostico-col">
+                                    <div class="icono-tipo-diag">🎨</div>
+                                    <span class="etiqueta-col-diag">Tu Estación de Color</span>
+                                    <h3 id="resultadoEstacionPerfil" class="resultado-diag-titulo">Procesando...</h3>
+                                    <p id="asesoriaEstacionPerfil" class="asesoria-diag-texto"></p>
+                                </div>
+                            </div>
+
+                            <!-- MODELOS RECOMENDADOS DIRECTOS -->
+                            <div class="seccion-modelos-perfil">
+                                <h3>🛍️ Tus Modelos Recomendados Fijos</h3>
+                                <p class="subtexto-modelos">Prendas y accesorios que armonizan con tu morfología y colorimetría:</p>
+                                <div id="galeriaRecomendadosPerfil" class="galeria-modelos-perfil"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ESTADO B: SIN DIAGNÓSTICO AÚN -->
+                    <div id="bloqueSinDiagnostico" class="vista-sin-diagnostico" style="display: none;">
+                        <div class="icono-sin-diag">🎯</div>
+                        <h2>Aún no has guardado tu diagnóstico facial</h2>
+                        <p>Hazte un escaneo facial de 5 segundos con tu foto o cámara web para descubrir tu forma de rostro, tu estación de color y tener tus recomendaciones siempre listas aquí.</p>
+                        <div class="botones-aviso">
+                            <a href="index.htm" class="boton-destacado-link">Iniciar mi Análisis Facial</a>
+                        </div>
+                    </div>
+
+                    <!-- HISTORIAL DE ANÁLISIS PREVIOS -->
+                    <div class="tarjeta-historial-perfil">
+                        <h3>🕒 Historial de Diagnósticos Realizados</h3>
+                        <div class="tabla-wrap">
+                            <table class="tabla-productos">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha del Análisis</th>
+                                        <th>Forma de Rostro</th>
+                                        <th>Estación de Color</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cuerpoHistorialPerfil"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="auth.js?v=8"></script>
+    <script src="perfil.js?v=8"></script>
+</body>
+
+</html>

@@ -1,0 +1,602 @@
+{
+  "LEN-CIN-01": {
+    "categoria": "lentes",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Montura de acetato negro absoluto brillante"
+  },
+  "LEN-CIN-02": {
+    "categoria": "lentes",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Montura metálica en tono plateado frío"
+  },
+  "LEN-CIN-03": {
+    "categoria": "lentes",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Montura gruesa en color azul marino oscuro"
+  },
+  "LEN-CVE-01": {
+    "categoria": "lentes",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Montura de acetato en gris perla mate"
+  },
+  "LEN-CVE-02": {
+    "categoria": "lentes",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Montura translúcida en tono rosa palo"
+  },
+  "LEN-CVE-03": {
+    "categoria": "lentes",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Montura metálica fina en color azul cielo/bebé"
+  },
+  "LEN-COT-01": {
+    "categoria": "lentes",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Montura de acetato tipo carey oscuro"
+  },
+  "LEN-COT-02": {
+    "categoria": "lentes",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Montura metálica en color bronce/cobre avejentado"
+  },
+  "LEN-COT-03": {
+    "categoria": "lentes",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Montura de policarbonato en verde oliva mate"
+  },
+  "LEN-CPR-01": {
+    "categoria": "lentes",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Montura metálica en tono dorado brillante"
+  },
+  "LEN-CPR-02": {
+    "categoria": "lentes",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Montura translúcida en color melocotón"
+  },
+  "LEN-CPR-03": {
+    "categoria": "lentes",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Montura carey clara (tonos miel y ámbar)"
+  },
+  "LEN-MRE-01": {
+    "categoria": "lentes",
+    "codigo": "MRE",
+    "enfoque": "Morfología (Redondo)",
+    "descripcion": "Montura estrictamente rectangular"
+  },
+  "LEN-MRE-02": {
+    "categoria": "lentes",
+    "codigo": "MRE",
+    "enfoque": "Morfología (Redondo)",
+    "descripcion": "Montura estilo Wayfarer de ángulos marcados"
+  },
+  "LEN-MCU-01": {
+    "categoria": "lentes",
+    "codigo": "MCU",
+    "enfoque": "Morfología (Cuadrado)",
+    "descripcion": "Montura completamente redonda estilo clásico"
+  },
+  "LEN-MCU-02": {
+    "categoria": "lentes",
+    "codigo": "MCU",
+    "enfoque": "Morfología (Cuadrado)",
+    "descripcion": "Montura ovalada de bordes suaves y delgados"
+  },
+  "LEN-MDI-01": {
+    "categoria": "lentes",
+    "codigo": "MDI",
+    "enfoque": "Morfología (Diamante)",
+    "descripcion": "Montura Cat-eye pronunciada"
+  },
+  "LEN-MDI-02": {
+    "categoria": "lentes",
+    "codigo": "MDI",
+    "enfoque": "Morfología (Diamante)",
+    "descripcion": "Montura Browline (borde grueso superior)"
+  },
+  "LEN-MOV-01": {
+    "categoria": "lentes",
+    "codigo": "MOV",
+    "enfoque": "Morfología (Ovalado)",
+    "descripcion": "Montura tipo Aviador de proporciones clásicas"
+  },
+  "LEN-MOV-02": {
+    "categoria": "lentes",
+    "codigo": "MOV",
+    "enfoque": "Morfología (Ovalado)",
+    "descripcion": "Montura geométrica vanguardista (hexagonal)"
+  },
+  "BUF-CIN-01": {
+    "categoria": "bufandas",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Pashmina en color fucsia vibrante"
+  },
+  "BUF-CIN-02": {
+    "categoria": "bufandas",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Bufanda tejida a cuadros en blanco óptico y negro"
+  },
+  "BUF-CIN-03": {
+    "categoria": "bufandas",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Cuello de lana fina en verde esmeralda profundo"
+  },
+  "BUF-CVE-01": {
+    "categoria": "bufandas",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Pashmina de gasa en tono lavanda suave"
+  },
+  "BUF-CVE-02": {
+    "categoria": "bufandas",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Bufanda ligera en gris claro jaspeado"
+  },
+  "BUF-CVE-03": {
+    "categoria": "bufandas",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Pañuelo de seda en rosa empolvado"
+  },
+  "BUF-COT-01": {
+    "categoria": "bufandas",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Bufanda de punto grueso en color mostaza"
+  },
+  "BUF-COT-02": {
+    "categoria": "bufandas",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Pashmina ancha en tono terracota/ladrillo"
+  },
+  "BUF-COT-03": {
+    "categoria": "bufandas",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Cuello de lana en color marrón chocolate"
+  },
+  "BUF-CPR-01": {
+    "categoria": "bufandas",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Pañuelo ligero en color coral brillante"
+  },
+  "BUF-CPR-02": {
+    "categoria": "bufandas",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Pashmina de textura suave en amarillo sol"
+  },
+  "BUF-CPR-03": {
+    "categoria": "bufandas",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Bufanda de hilo en tono turquesa claro"
+  },
+  "BUF-MRE-01": {
+    "categoria": "bufandas",
+    "codigo": "MRE",
+    "enfoque": "Morfología (Redondo)",
+    "descripcion": "Bufanda larga y delgada de caída recta"
+  },
+  "BUF-MRE-02": {
+    "categoria": "bufandas",
+    "codigo": "MRE",
+    "enfoque": "Morfología (Redondo)",
+    "descripcion": "Pashmina atada con nudo bajo en \"V\""
+  },
+  "BUF-MCU-01": {
+    "categoria": "bufandas",
+    "codigo": "MCU",
+    "enfoque": "Morfología (Cuadrado)",
+    "descripcion": "Cuello infinito circular y voluminoso"
+  },
+  "BUF-MCU-02": {
+    "categoria": "bufandas",
+    "codigo": "MCU",
+    "enfoque": "Morfología (Cuadrado)",
+    "descripcion": "Pañuelo de seda cuadrado con caída drapeada"
+  },
+  "BUF-MDI-01": {
+    "categoria": "bufandas",
+    "codigo": "MDI",
+    "enfoque": "Morfología (Diamante)",
+    "descripcion": "Bufanda de punto grueso atada sobre la clavícula"
+  },
+  "BUF-MDI-02": {
+    "categoria": "bufandas",
+    "codigo": "MDI",
+    "enfoque": "Morfología (Diamante)",
+    "descripcion": "Pashmina ancha para cubrir los hombros"
+  },
+  "BUF-MOV-01": {
+    "categoria": "bufandas",
+    "codigo": "MOV",
+    "enfoque": "Morfología (Ovalado)",
+    "descripcion": "Bufanda clásica de lana con nudo europeo"
+  },
+  "BUF-MOV-02": {
+    "categoria": "bufandas",
+    "codigo": "MOV",
+    "enfoque": "Morfología (Ovalado)",
+    "descripcion": "Pañuelo estrecho atado estilo corbatín"
+  },
+  "CIN-CIN-01": {
+    "categoria": "cintillo",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Diadema de terciopelo en color rojo cereza"
+  },
+  "CIN-CIN-02": {
+    "categoria": "cintillo",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Cintillo liso en azul marino"
+  },
+  "CIN-CIN-03": {
+    "categoria": "cintillo",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Banda elástica negra con apliques plateados"
+  },
+  "CIN-CVE-01": {
+    "categoria": "cintillo",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Cintillo trenzado en color gris perla"
+  },
+  "CIN-CVE-02": {
+    "categoria": "cintillo",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Diadema de tela en azul bebé liso"
+  },
+  "CIN-CVE-03": {
+    "categoria": "cintillo",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Banda suave en tono lavanda"
+  },
+  "CIN-COT-01": {
+    "categoria": "cintillo",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Cintillo de pana ancha en color camel"
+  },
+  "CIN-COT-02": {
+    "categoria": "cintillo",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Diadema con detalles dorados cálidos"
+  },
+  "CIN-COT-03": {
+    "categoria": "cintillo",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Banda de tela gruesa en verde militar/oliva"
+  },
+  "CIN-CPR-01": {
+    "categoria": "cintillo",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Diadema de tela en color coral vibrante"
+  },
+  "CIN-CPR-02": {
+    "categoria": "cintillo",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Cintillo con estampado tropical base amarilla"
+  },
+  "CIN-CPR-03": {
+    "categoria": "cintillo",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Banda elástica en tono verde manzana"
+  },
+  "CIN-MRE-01": {
+    "categoria": "cintillo",
+    "codigo": "MRE",
+    "enfoque": "Morfología (Redondo)",
+    "descripcion": "Cintillo tipo turbante con nudo abultado superior"
+  },
+  "CIN-MRE-02": {
+    "categoria": "cintillo",
+    "codigo": "MRE",
+    "enfoque": "Morfología (Redondo)",
+    "descripcion": "Diadema gruesa con aplique central alto"
+  },
+  "CIN-MCU-01": {
+    "categoria": "cintillo",
+    "codigo": "MCU",
+    "enfoque": "Morfología (Cuadrado)",
+    "descripcion": "Diadema muy fina y curva sin texturas"
+  },
+  "CIN-MCU-02": {
+    "categoria": "cintillo",
+    "codigo": "MCU",
+    "enfoque": "Morfología (Cuadrado)",
+    "descripcion": "Cinta de tela elástica plana tipo bandana"
+  },
+  "CIN-MDI-01": {
+    "categoria": "cintillo",
+    "codigo": "MDI",
+    "enfoque": "Morfología (Diamante)",
+    "descripcion": "Cintillo ancho con volumen a los lados"
+  },
+  "CIN-MDI-02": {
+    "categoria": "cintillo",
+    "codigo": "MDI",
+    "enfoque": "Morfología (Diamante)",
+    "descripcion": "Diadema con adornos laterales prominentes"
+  },
+  "CIN-MOV-01": {
+    "categoria": "cintillo",
+    "codigo": "MOV",
+    "enfoque": "Morfología (Ovalado)",
+    "descripcion": "Cintillo clásico acolchado de grosor medio"
+  },
+  "CIN-MOV-02": {
+    "categoria": "cintillo",
+    "codigo": "MOV",
+    "enfoque": "Morfología (Ovalado)",
+    "descripcion": "Banda deportiva de algodón"
+  },
+  "CHA-CIN-01": {
+    "categoria": "chaqueta",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Abrigo sastre estructurado negro"
+  },
+  "CHA-CIN-02": {
+    "categoria": "chaqueta",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Rompevientos deportivo fucsia neón"
+  },
+  "CHA-CIN-03": {
+    "categoria": "chaqueta",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Chaqueta biker de cuero sintético blanco óptico"
+  },
+  "CHA-CVE-01": {
+    "categoria": "chaqueta",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Chaqueta denim lavado muy claro"
+  },
+  "CHA-CVE-02": {
+    "categoria": "chaqueta",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Blazer ligero en tono gris perla"
+  },
+  "CHA-CVE-03": {
+    "categoria": "chaqueta",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Cardigan de punto fino en rosa pastel"
+  },
+  "CHA-COT-01": {
+    "categoria": "chaqueta",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Chaqueta tipo parka en verde oliva"
+  },
+  "CHA-COT-02": {
+    "categoria": "chaqueta",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Abrigo clásico de paño en color camel"
+  },
+  "CHA-COT-03": {
+    "categoria": "chaqueta",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Chaqueta de pana en tono terracota"
+  },
+  "CHA-CPR-01": {
+    "categoria": "chaqueta",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Chaqueta cortavientos en color turquesa"
+  },
+  "CHA-CPR-02": {
+    "categoria": "chaqueta",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Blazer ligero en tono beige arena"
+  },
+  "CHA-CPR-03": {
+    "categoria": "chaqueta",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Cardigan abierto en coral claro"
+  },
+  "CHA-MRE-01": {
+    "categoria": "chaqueta",
+    "codigo": "MRE",
+    "enfoque": "Morfología (Redondo)",
+    "descripcion": "Blazer estructurado con solapas de pico estrechas"
+  },
+  "CHA-MRE-02": {
+    "categoria": "chaqueta",
+    "codigo": "MRE",
+    "enfoque": "Morfología (Redondo)",
+    "descripcion": "Chaqueta con escote en \"V\" pronunciado"
+  },
+  "CHA-MCU-01": {
+    "categoria": "chaqueta",
+    "codigo": "MCU",
+    "enfoque": "Morfología (Cuadrado)",
+    "descripcion": "Chaqueta tipo Chanel (sin solapas)"
+  },
+  "CHA-MCU-02": {
+    "categoria": "chaqueta",
+    "codigo": "MCU",
+    "enfoque": "Morfología (Cuadrado)",
+    "descripcion": "Cardigan de punto con caída de hombros holgada"
+  },
+  "CHA-MDI-01": {
+    "categoria": "chaqueta",
+    "codigo": "MDI",
+    "enfoque": "Morfología (Diamante)",
+    "descripcion": "Chaqueta con cuello tortuga ancho/desbocado"
+  },
+  "CHA-MDI-02": {
+    "categoria": "chaqueta",
+    "codigo": "MDI",
+    "enfoque": "Morfología (Diamante)",
+    "descripcion": "Chaqueta con cuello tipo bandeja"
+  },
+  "CHA-MOV-01": {
+    "categoria": "chaqueta",
+    "codigo": "MOV",
+    "enfoque": "Morfología (Ovalado)",
+    "descripcion": "Chaqueta bomber de corte redondo"
+  },
+  "CHA-MOV-02": {
+    "categoria": "chaqueta",
+    "codigo": "MOV",
+    "enfoque": "Morfología (Ovalado)",
+    "descripcion": "Blazer clásico de solapa recta"
+  },
+  "FRA-CIN-01": {
+    "categoria": "franelas",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Franela básica en azul rey"
+  },
+  "FRA-CIN-02": {
+    "categoria": "franelas",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Camiseta en verde esmeralda"
+  },
+  "FRA-CIN-03": {
+    "categoria": "franelas",
+    "codigo": "CIN",
+    "enfoque": "Colorimetría (Invierno)",
+    "descripcion": "Franela negra con tipografía blanca"
+  },
+  "FRA-CVE-01": {
+    "categoria": "franelas",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Franela básica en azul cielo"
+  },
+  "FRA-CVE-02": {
+    "categoria": "franelas",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Camiseta en rosa palo"
+  },
+  "FRA-CVE-03": {
+    "categoria": "franelas",
+    "codigo": "CVE",
+    "enfoque": "Colorimetría (Verano)",
+    "descripcion": "Franela clásica en blanco roto"
+  },
+  "FRA-COT-01": {
+    "categoria": "franelas",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Franela básica en mostaza intenso"
+  },
+  "FRA-COT-02": {
+    "categoria": "franelas",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Camiseta manga larga en marrón chocolate"
+  },
+  "FRA-COT-03": {
+    "categoria": "franelas",
+    "codigo": "COT",
+    "enfoque": "Colorimetría (Otoño)",
+    "descripcion": "Franela de algodón en verde militar"
+  },
+  "FRA-CPR-01": {
+    "categoria": "franelas",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Franela básica en amarillo sol"
+  },
+  "FRA-CPR-02": {
+    "categoria": "franelas",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Camiseta de tirantes en coral vibrante"
+  },
+  "FRA-CPR-03": {
+    "categoria": "franelas",
+    "codigo": "CPR",
+    "enfoque": "Colorimetría (Primavera)",
+    "descripcion": "Franela en verde manzana brillante"
+  },
+  "FRA-MRE-01": {
+    "categoria": "franelas",
+    "codigo": "MRE",
+    "enfoque": "Morfología (Redondo)",
+    "descripcion": "Franela con cuello en \"V\" profundo"
+  },
+  "FRA-MRE-02": {
+    "categoria": "franelas",
+    "codigo": "MRE",
+    "enfoque": "Morfología (Redondo)",
+    "descripcion": "Camiseta con cuello cuadrado"
+  },
+  "FRA-MCU-01": {
+    "categoria": "franelas",
+    "codigo": "MCU",
+    "enfoque": "Morfología (Cuadrado)",
+    "descripcion": "Franela con cuello redondo amplio (\"U\")"
+  },
+  "FRA-MCU-02": {
+    "categoria": "franelas",
+    "codigo": "MCU",
+    "enfoque": "Morfología (Cuadrado)",
+    "descripcion": "Camiseta con escote drapeado suave"
+  },
+  "FRA-MDI-01": {
+    "categoria": "franelas",
+    "codigo": "MDI",
+    "enfoque": "Morfología (Diamante)",
+    "descripcion": "Franela clásica con cuello de tortuga ajustado"
+  },
+  "FRA-MDI-02": {
+    "categoria": "franelas",
+    "codigo": "MDI",
+    "enfoque": "Morfología (Diamante)",
+    "descripcion": "Camiseta con cuello barco u ojal"
+  },
+  "FRA-MOV-01": {
+    "categoria": "franelas",
+    "codigo": "MOV",
+    "enfoque": "Morfología (Ovalado)",
+    "descripcion": "Franela básica estándar (Crew neck)"
+  },
+  "FRA-MOV-02": {
+    "categoria": "franelas",
+    "codigo": "MOV",
+    "enfoque": "Morfología (Ovalado)",
+    "descripcion": "Camiseta estilo Henley"
+  }
+}

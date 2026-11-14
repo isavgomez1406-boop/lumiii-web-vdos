@@ -1,0 +1,2 @@
+python -m uvicorn server:app --reload --port 8080
+ver catalogo http://localhost:8080/api/db/status

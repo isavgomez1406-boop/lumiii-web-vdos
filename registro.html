@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIII - Crear cuenta</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="cabecera-principal">
+        <div class="contenedor-logo">
+            <img src="logo.png" alt="LUMIII Logo" class="logo">
+            <span class="titulo-marca">LUMIII</span>
+        </div>
+        <nav class="navegacion">
+            <ul>
+                <li><a href="index.htm">Análisis</a></li>
+                <li><a href="catalogo-completo.html">Catálogo</a></li>
+                <li><a href="conocimiento.html">Conocimiento</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="contenedor contenedor-auth">
+            <h1>Crear cuenta</h1>
+            <p class="subtitulo-auth">Regístrate para guardar tus análisis</p>
+
+            <form id="formRegistro" class="form-auth">
+                <label>
+                    <span>Nombre completo</span>
+                    <input type="text" name="nombre" placeholder="María Rodríguez" required autocomplete="name">
+                </label>
+                <label>
+                    <span>Correo</span>
+                    <input type="email" name="correo" placeholder="tucorreo@ejemplo.com" required autocomplete="email">
+                </label>
+                <label>
+                    <span>Contraseña</span>
+                    <input type="password" name="password" placeholder="Mínimo 6 caracteres" required minlength="6" autocomplete="new-password">
+                </label>
+                <label>
+                    <span>Confirma la contraseña</span>
+                    <input type="password" name="confirmacion" placeholder="Repite tu contraseña" required minlength="6" autocomplete="new-password">
+                </label>
+
+                <button type="submit">Crear cuenta</button>
+                <p id="mensajeRegistro" class="mensaje-inline" style="display: none;"></p>
+            </form>
+
+            <p class="pie-auth">
+                ¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a>
+            </p>
+        </div>
+    </main>
+
+    <script src="auth.js"></script>
+    <script src="registro.js"></script>
+</body>
+</html>
