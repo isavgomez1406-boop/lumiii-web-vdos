@@ -25,18 +25,23 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 RUTA_BD = os.path.join(BASE_DIR, "lumiii.db")
 
-# La URL sigue el patrón sqlite:///<ruta_absoluta_al_archivo>
-DATABASE_URL = f"sqlite:///{RUTA_BD}"
+# Si existe la variable DATABASE_URL (ej. en Render conectado a Supabase), la usamos.
+# Si no está definida, usamos la base SQLite local (lumiii.db).
+DATABASE_URL = os.environ.get("DATABASE_URL", f"sqlite:///{RUTA_BD}")
 
-# check_same_thread=False es específico de SQLite: por defecto solo permite que
-# la BD sea usada por el hilo que la abrió, pero FastAPI/uvicorn atiende cada
-# request en un hilo distinto. Poniéndolo en False dejamos que varias
-# requests trabajen con la misma BD (SQLAlchemy maneja la concurrencia por
-# nosotros con la SessionLocal de abajo).
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False},
-)
+# Supabase y otros servicios a menudo entregan la URL como postgres://...
+# SQLAlchemy 2.0+ requiere que comience con postgresql://...
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+# check_same_thread=False solo aplica para SQLite
+if DATABASE_URL.startswith("sqlite"):
+    engine = create_engine(
+        DATABASE_URL,
+        connect_args={"check_same_thread": False},
+    )
+else:
+    engine = create_engine(DATABASE_URL)
 
 # Cada request va a abrir su propia Session, hacer sus consultas, y cerrarla.
 # autoflush/autocommit en False = tú controlas explícitamente cuándo se
