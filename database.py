@@ -21,6 +21,7 @@ Y una utilidad:
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.pool import NullPool
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 RUTA_BD = os.path.join(BASE_DIR, "lumiii.db")
@@ -36,14 +37,25 @@ if DATABASE_URL.startswith("postgres://"):
 elif DATABASE_URL.startswith("postgresql://") and not DATABASE_URL.startswith("postgresql+"):
     DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
 
-# check_same_thread=False solo aplica para SQLite
+# Supabase exige conexión cifrada con SSL
+if not DATABASE_URL.startswith("sqlite"):
+    if "sslmode" not in DATABASE_URL:
+        sep = "&" if "?" in DATABASE_URL else "?"
+        DATABASE_URL = f"{DATABASE_URL}{sep}sslmode=require"
+
+# Configuración del motor de base de datos
 if DATABASE_URL.startswith("sqlite"):
     engine = create_engine(
         DATABASE_URL,
         connect_args={"check_same_thread": False},
     )
 else:
-    engine = create_engine(DATABASE_URL)
+    # Para Postgres en Supabase: NullPool evita saturar el pooler de Supabase
+    engine = create_engine(
+        DATABASE_URL,
+        poolclass=NullPool,
+        connect_args={"connect_timeout": 15},
+    )
 
 # Cada request va a abrir su propia Session, hacer sus consultas, y cerrarla.
 # autoflush/autocommit en False = tú controlas explícitamente cuándo se

@@ -35,7 +35,11 @@ app.add_middleware(
 )
 
 # Crear tablas si no existen (incluye la nueva tabla `sesiones` e `intereses`)
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+    print("✅ Base de datos conectada y tablas listas.")
+except Exception as e:
+    print(f"❌ Error al conectar con la base de datos al iniciar: {e}")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "face_landmarker.task")
