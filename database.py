@@ -30,9 +30,11 @@ RUTA_BD = os.path.join(BASE_DIR, "lumiii.db")
 DATABASE_URL = os.environ.get("DATABASE_URL", f"sqlite:///{RUTA_BD}")
 
 # Supabase y otros servicios a menudo entregan la URL como postgres://...
-# SQLAlchemy 2.0+ requiere que comience con postgresql://...
+# SQLAlchemy 2.0+ requiere especificar el dialecto o driver (postgresql+psycopg2://)
 if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+psycopg2://", 1)
+elif DATABASE_URL.startswith("postgresql://") and not DATABASE_URL.startswith("postgresql+"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
 
 # check_same_thread=False solo aplica para SQLite
 if DATABASE_URL.startswith("sqlite"):
