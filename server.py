@@ -939,13 +939,13 @@ def _servir_html(nombre_archivo: str):
     ruta = os.path.join(BASE_DIR, nombre_archivo)
     if not os.path.exists(ruta):
         return JSONResponse(status_code=404, content={"error": f"{nombre_archivo} no encontrado"})
-    return FileResponse(ruta)
+    return FileResponse(ruta, headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
 
 def _servir_asset(nombre_archivo: str):
     ruta = os.path.join(BASE_DIR, nombre_archivo)
     if not os.path.exists(ruta):
         return JSONResponse(status_code=404, content={"error": f"{nombre_archivo} no encontrado"})
-    return FileResponse(ruta)
+    return FileResponse(ruta, headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
 
 @app.get("/")
 @app.get("/index.htm")
@@ -954,7 +954,7 @@ async def servir_index():
     ruta = os.path.join(BASE_DIR, "index.htm")
     if not os.path.exists(ruta):
         ruta = os.path.join(BASE_DIR, "index.html")
-    return FileResponse(ruta)
+    return FileResponse(ruta, headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
 
 @app.get("/styles.css")
 async def servir_css(): return _servir_asset("styles.css")

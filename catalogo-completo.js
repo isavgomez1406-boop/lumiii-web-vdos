@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const URL_SERVIDOR = (typeof LumiiiAuth !== 'undefined' && LumiiiAuth.URL_SERVIDOR)
+    const URL_SERVIDOR = (typeof LumiiiAuth !== 'undefined' && LumiiiAuth.URL_SERVIDOR !== undefined)
         ? LumiiiAuth.URL_SERVIDOR
-        : (window.location.origin && !window.location.protocol.startsWith('file') ? window.location.origin : 'http://localhost:8080');
+        : ((window.location && window.location.protocol && window.location.protocol.startsWith('http')) ? '' : 'http://localhost:8080');
 
     const textoCargando = document.getElementById('textoCargando');
     const textoErrorCatalogo = document.getElementById('textoErrorCatalogo');
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
         console.error('Error cargando el catálogo:', error);
         textoCargando.style.display = 'none';
-        textoErrorCatalogo.innerText = 'No se pudo cargar el catálogo. ¿Está encendido el servidor?';
+        textoErrorCatalogo.innerText = 'No se pudo cargar el catálogo. Intenta nuevamente.';
         textoErrorCatalogo.style.display = 'block';
     }
 });

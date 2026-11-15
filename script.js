@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const textoAsesoriaEstacion = document.getElementById('textoAsesoriaEstacion');
     const galeriaEstacion = document.getElementById('galeriaEstacion');
 
-    const URL_SERVIDOR = (typeof LumiiiAuth !== 'undefined' && LumiiiAuth.URL_SERVIDOR)
+    const URL_SERVIDOR = (typeof LumiiiAuth !== 'undefined' && LumiiiAuth.URL_SERVIDOR !== undefined)
         ? LumiiiAuth.URL_SERVIDOR
-        : (window.location.origin && !window.location.protocol.startsWith('file') ? window.location.origin : 'http://localhost:8080');
+        : ((window.location && window.location.protocol && window.location.protocol.startsWith('http')) ? '' : 'http://localhost:8080');
 
     // Mismos códigos que MAPA_ESTACION / MAPA_MORFOLOGIA en server.py,
     // usados aquí solo para pintar cada panel con su color real (ver styles.css).
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error de red:', error);
             panelesResultado.style.display = 'none';
-            textoError.innerText = 'El servidor local está apagado.';
+            textoError.innerText = 'No se pudo conectar con el servidor. Intenta nuevamente.';
             textoError.style.display = 'block';
         }
     });
