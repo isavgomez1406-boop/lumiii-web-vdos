@@ -53,11 +53,30 @@ if os.path.isdir(CONOCIMIENTO_DIR):
     app.mount("/conocimiento", StaticFiles(directory=CONOCIMIENTO_DIR), name="conocimiento")
 
 
-def sembrar_catalogo_si_vacio():
+def deducir_enfoque(cod: str) -> str:
+    """Devuelve 'colorimetria' o 'morfologia' garantizando longitud <= 12 chars."""
+    if not cod:
+        return "colorimetria"
+    return "colorimetria" if str(cod).strip().upper().startswith("C") else "morfologia"
+
+
+def sembrar_catalogo_si_vacio(db_session=None):
     """Si la tabla Producto está vacía (ej. nueva BD en Supabase),
     migra automáticamente todos los SKUs de catalogo/catalogo.json."""
-    try:
+    cerro_db = False
+    db = db_session
+    if db is None:
         db = SessionLocal()
+        cerro_db = True
+    try:
+        # Asegurar longitud de columna en postgres si ya fue creada
+        try:
+            from sqlalchemy import text
+            db.execute(text("ALTER TABLE productos ALTER COLUMN enfoque TYPE VARCHAR(100);"))
+            db.commit()
+        except Exception:
+            db.rollback()
+
         conteo = db.query(Producto).count()
         if conteo == 0:
             catalogo_path = os.path.join(BASE_DIR, "catalogo", "catalogo.json")
@@ -65,13 +84,12 @@ def sembrar_catalogo_si_vacio():
                 print(f"📦 Base de datos sin productos. Sembrando catálogo desde {catalogo_path}...")
                 with open(catalogo_path, "r", encoding="utf-8") as f:
                     catalogo = json.load(f)
+                insertados = 0
                 for sku, info in catalogo.items():
                     cat = (info.get("categoria") or "").strip().lower()
                     cod = (info.get("codigo") or "").strip().upper()
                     desc = info.get("descripcion") or sku
-                    enf = info.get("enfoque")
-                    if not enf and cod:
-                        enf = "colorimetria" if cod.startswith("C") else "morfologia"
+                    enf = deducir_enfoque(cod)
                     if cat and cod:
                         nuevo = Producto(
                             sku=sku,
@@ -85,19 +103,22 @@ def sembrar_catalogo_si_vacio():
                             activo=True,
                         )
                         db.add(nuevo)
+                        insertados += 1
                 db.commit()
-                print(f"✅ Catálogo sembrado con éxito: {len(catalogo)} productos en la base de datos.")
+                print(f"✅ Catálogo sembrado con éxito: {insertados} productos en la base de datos.")
             else:
                 print(f"⚠️ No se encontró {catalogo_path} para sembrar catálogo.")
         else:
             print(f"ℹ️ El catálogo ya cuenta con {conteo} productos en la base de datos.")
     except Exception as e:
+        db.rollback()
         print(f"⚠️ Error al sembrar catálogo en la base de datos: {e}")
     finally:
-        try:
-            db.close()
-        except Exception:
-            pass
+        if cerro_db:
+            try:
+                db.close()
+            except Exception:
+                pass
 
 sembrar_catalogo_si_vacio()
 
@@ -260,57 +281,72 @@ def auth_actual(
 
 landmarker_detector = None
 legacy_face_mesh = None
+detector_error = None
 
 def init_detector():
-    global landmarker_detector, legacy_face_mesh
+    global landmarker_detector, legacy_face_mesh, detector_error
     if landmarker_detector is not None or legacy_face_mesh is not None:
         return
-    try:
-        from mediapipe.tasks import python
-        from mediapipe.tasks.python import vision
-        if not os.path.exists(MODEL_PATH):
+
+    if not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) < 1000000:
+        try:
             print(f"Descargando modelo face_landmarker.task desde {MODEL_URL}...")
             urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
             print("Modelo descargado exitosamente.")
+        except Exception as ed:
+            print(f"Error descargando modelo: {ed}")
 
-        # Intentar cargar buffer binario primero (evita problemas de rutas en contenedores)
-        with open(MODEL_PATH, "rb") as f:
-            model_bytes = f.read()
-
-        base_options = python.BaseOptions(model_asset_buffer=model_bytes)
+    # Intento 1: MediaPipe Tasks con model_asset_path
+    try:
+        from mediapipe.tasks import python
+        from mediapipe.tasks.python import vision
+        base_options = python.BaseOptions(model_asset_path=MODEL_PATH)
         options = vision.FaceLandmarkerOptions(
             base_options=base_options,
             output_face_blendshapes=False,
             output_facial_transformation_matrixes=False,
-            min_face_detection_confidence=0.25,
-            min_face_presence_confidence=0.25,
+            min_face_detection_confidence=0.2,
+            min_face_presence_confidence=0.2,
+            num_faces=1,
+        )
+        landmarker_detector = vision.FaceLandmarker.create_from_options(options)
+        print("✅ MediaPipe FaceLandmarker inicializado con model_asset_path.")
+        return
+    except Exception as e:
+        detector_error = f"Tasks path: {e}"
+        print(f"⚠️ {detector_error}")
+
+    # Intento 2: MediaPipe Tasks con buffer binario
+    try:
+        from mediapipe.tasks import python
+        from mediapipe.tasks.python import vision
+        with open(MODEL_PATH, "rb") as f:
+            b = f.read()
+        base_options = python.BaseOptions(model_asset_buffer=b)
+        options = vision.FaceLandmarkerOptions(
+            base_options=base_options,
+            min_face_detection_confidence=0.2,
+            min_face_presence_confidence=0.2,
             num_faces=1,
         )
         landmarker_detector = vision.FaceLandmarker.create_from_options(options)
         print("✅ MediaPipe FaceLandmarker inicializado con buffer.")
-    except Exception as e:
-        print(f"⚠️ Error al inicializar FaceLandmarker con buffer ({e}), intentando model_asset_path...")
-        try:
-            from mediapipe.tasks import python
-            from mediapipe.tasks.python import vision
-            base_options = python.BaseOptions(model_asset_path=MODEL_PATH)
-            options = vision.FaceLandmarkerOptions(
-                base_options=base_options,
-                min_face_detection_confidence=0.25,
-                num_faces=1,
+        return
+    except Exception as e2:
+        detector_error = f"Tasks buffer: {e2}"
+        print(f"⚠️ {detector_error}")
+
+    # Intento 3: mp.solutions legacy con refine_landmarks=True
+    try:
+        if hasattr(mp, "solutions") and hasattr(mp.solutions, "face_mesh"):
+            legacy_face_mesh = mp.solutions.face_mesh.FaceMesh(
+                static_image_mode=True, max_num_faces=1, refine_landmarks=True, min_detection_confidence=0.2
             )
-            landmarker_detector = vision.FaceLandmarker.create_from_options(options)
-            print("✅ MediaPipe FaceLandmarker inicializado con model_asset_path.")
-        except Exception as e2:
-            print(f"⚠️ Error con model_asset_path ({e2}), intentando mp.solutions legacy...")
-            try:
-                if hasattr(mp, "solutions") and hasattr(mp.solutions, "face_mesh"):
-                    legacy_face_mesh = mp.solutions.face_mesh.FaceMesh(
-                        static_image_mode=True, max_num_faces=1, min_detection_confidence=0.25
-                    )
-                    print("✅ MediaPipe solutions FaceMesh legacy inicializado.")
-            except Exception as e3:
-                print(f"❌ Error al inicializar FaceMesh legacy: {e3}")
+            print("✅ MediaPipe solutions FaceMesh legacy inicializado.")
+            return
+    except Exception as e3:
+        detector_error = f"FaceMesh legacy: {e3}"
+        print(f"❌ {detector_error}")
 
 init_detector()
 
@@ -502,29 +538,46 @@ async def analizar_rostro(
 
         alto, ancho, _ = img.shape
 
+        # Redimensionar si la imagen supera 1280px para máxima velocidad y evitar desbordes
+        MAX_DIM = 1280
+        if max(alto, ancho) > MAX_DIM:
+            escala = MAX_DIM / max(alto, ancho)
+            nuevo_ancho = int(ancho * escala)
+            nuevo_alto = int(alto * escala)
+            img_rgb = cv2.resize(img_rgb, (nuevo_ancho, nuevo_alto), interpolation=cv2.INTER_AREA)
+            img = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
+            alto, ancho, _ = img_rgb.shape
+
         # Asegurar que el detector esté listo
         if landmarker_detector is None and legacy_face_mesh is None:
             init_detector()
 
         def _extraer_landmarks(rgb_frame):
+            rgb_c = np.ascontiguousarray(rgb_frame, dtype=np.uint8)
             if landmarker_detector is not None:
-                mp_img = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
-                res = landmarker_detector.detect(mp_img)
-                if res.face_landmarks and len(res.face_landmarks) > 0:
-                    return res.face_landmarks[0]
-            elif legacy_face_mesh is not None:
-                res = legacy_face_mesh.process(rgb_frame)
-                if res.multi_face_landmarks and len(res.multi_face_landmarks) > 0:
-                    return res.multi_face_landmarks[0].landmark
+                try:
+                    mp_img = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_c)
+                    res = landmarker_detector.detect(mp_img)
+                    if res and res.face_landmarks and len(res.face_landmarks) > 0:
+                        return res.face_landmarks[0]
+                except Exception as err1:
+                    print(f"Error detect landmarker: {err1}")
+            if legacy_face_mesh is not None:
+                try:
+                    res = legacy_face_mesh.process(rgb_c)
+                    if res and res.multi_face_landmarks and len(res.multi_face_landmarks) > 0:
+                        return res.multi_face_landmarks[0].landmark
+                except Exception as err2:
+                    print(f"Error process legacy: {err2}")
             return None
 
         # 2. Intentar detección en la orientación inicial
         landmarks = _extraer_landmarks(img_rgb)
 
-        # 3. Si no detectó, probar rotaciones de 90, 180, 270 grados (fotos tomadas de lado/invertidas)
+        # 3. Si no detectó, probar rotaciones con arrays contiguos
         if landmarks is None:
             for rotacion in (cv2.ROTATE_90_CLOCKWISE, cv2.ROTATE_180, cv2.ROTATE_90_COUNTERCLOCKWISE):
-                frame_rotado = cv2.rotate(img_rgb, rotacion)
+                frame_rotado = np.ascontiguousarray(cv2.rotate(img_rgb, rotacion), dtype=np.uint8)
                 landmarks = _extraer_landmarks(frame_rotado)
                 if landmarks is not None:
                     img_rgb = frame_rotado
@@ -533,6 +586,8 @@ async def analizar_rostro(
                     break
 
         if landmarks is None:
+            if landmarker_detector is None and legacy_face_mesh is None:
+                return JSONResponse(status_code=500, content={"error": f"El detector facial no pudo inicializarse: {detector_error}"})
             return JSONResponse(status_code=404, content={"error": "No se detectó rostro en la imagen. Intenta con una foto mirando de frente y con buena iluminación."})
 
         categorias_pedidas = None
@@ -755,8 +810,30 @@ def api_catalogo(
             "enfoque": p.enfoque,
             "descripcion": p.nombre,
             "precio": p.precio,
+            "imagen_url": p.imagen_url,
         }
     return resultado
+
+
+@app.get("/api/diagnostico")
+def diagnostico_sistema(db: Session = Depends(get_db)):
+    global landmarker_detector, legacy_face_mesh, detector_error
+    if landmarker_detector is None and legacy_face_mesh is None:
+        init_detector()
+    return {
+        "mediapipe_tasks": landmarker_detector is not None,
+        "mediapipe_legacy": legacy_face_mesh is not None,
+        "detector_error": str(detector_error),
+        "total_productos": db.query(Producto).count(),
+        "total_usuarios": db.query(Usuario).count(),
+        "modelo_task_existe": os.path.exists(MODEL_PATH),
+    }
+
+
+@app.get("/api/catalogo/sincronizar")
+def api_sincronizar_catalogo(db: Session = Depends(get_db)):
+    sembrar_catalogo_si_vacio(db)
+    return {"estatus": "ok", "total_productos": db.query(Producto).count()}
 
 
 # ============================================================

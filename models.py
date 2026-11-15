@@ -77,7 +77,7 @@ class Producto(Base):
     nombre = Column(String(200), nullable=False)
     categoria = Column(String(40), nullable=False, index=True)
     codigo_resultado = Column(String(10), nullable=False, index=True)
-    enfoque = Column(String(20), nullable=True)
+    enfoque = Column(String(100), nullable=True)
 
     precio = Column(Float, nullable=True)
     stock = Column(Integer, default=0, nullable=False)
