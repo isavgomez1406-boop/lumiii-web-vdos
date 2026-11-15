@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const textoAsesoriaEstacion = document.getElementById('textoAsesoriaEstacion');
     const galeriaEstacion = document.getElementById('galeriaEstacion');
 
-    const URL_SERVIDOR = 'http://localhost:8080';
+    const URL_SERVIDOR = (typeof LumiiiAuth !== 'undefined' && LumiiiAuth.URL_SERVIDOR)
+        ? LumiiiAuth.URL_SERVIDOR
+        : (window.location.origin && !window.location.protocol.startsWith('file') ? window.location.origin : 'http://localhost:8080');
 
     // Mismos códigos que MAPA_ESTACION / MAPA_MORFOLOGIA en server.py,
     // usados aquí solo para pintar cada panel con su color real (ver styles.css).

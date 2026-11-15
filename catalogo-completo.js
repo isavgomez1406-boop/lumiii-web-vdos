@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    const URL_SERVIDOR = 'http://localhost:8080';
+    const URL_SERVIDOR = (typeof LumiiiAuth !== 'undefined' && LumiiiAuth.URL_SERVIDOR)
+        ? LumiiiAuth.URL_SERVIDOR
+        : (window.location.origin && !window.location.protocol.startsWith('file') ? window.location.origin : 'http://localhost:8080');
 
     const textoCargando = document.getElementById('textoCargando');
     const textoErrorCatalogo = document.getElementById('textoErrorCatalogo');

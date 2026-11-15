@@ -16,7 +16,9 @@
  */
 
 (function () {
-    const URL_SERVIDOR = 'http://localhost:8080';
+    const URL_SERVIDOR = (window.location.origin && window.location.origin !== 'null' && !window.location.protocol.startsWith('file'))
+        ? window.location.origin
+        : 'http://localhost:8080';
     const CLAVE_TOKEN = 'lumiii_auth_token';
 
     const LumiiiAuth = {
