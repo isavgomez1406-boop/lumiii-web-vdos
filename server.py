@@ -53,6 +53,55 @@ if os.path.isdir(CONOCIMIENTO_DIR):
     app.mount("/conocimiento", StaticFiles(directory=CONOCIMIENTO_DIR), name="conocimiento")
 
 
+def sembrar_catalogo_si_vacio():
+    """Si la tabla Producto está vacía (ej. nueva BD en Supabase),
+    migra automáticamente todos los SKUs de catalogo/catalogo.json."""
+    try:
+        db = SessionLocal()
+        conteo = db.query(Producto).count()
+        if conteo == 0:
+            catalogo_path = os.path.join(BASE_DIR, "catalogo", "catalogo.json")
+            if os.path.exists(catalogo_path):
+                print(f"📦 Base de datos sin productos. Sembrando catálogo desde {catalogo_path}...")
+                with open(catalogo_path, "r", encoding="utf-8") as f:
+                    catalogo = json.load(f)
+                for sku, info in catalogo.items():
+                    cat = (info.get("categoria") or "").strip().lower()
+                    cod = (info.get("codigo") or "").strip().upper()
+                    desc = info.get("descripcion") or sku
+                    enf = info.get("enfoque")
+                    if not enf and cod:
+                        enf = "colorimetria" if cod.startswith("C") else "morfologia"
+                    if cat and cod:
+                        nuevo = Producto(
+                            sku=sku,
+                            nombre=desc,
+                            categoria=cat,
+                            codigo_resultado=cod,
+                            enfoque=enf,
+                            imagen_url=f"/catalogo/{cat}/{cod}/{sku}.png",
+                            precio=None,
+                            stock=10,
+                            activo=True,
+                        )
+                        db.add(nuevo)
+                db.commit()
+                print(f"✅ Catálogo sembrado con éxito: {len(catalogo)} productos en la base de datos.")
+            else:
+                print(f"⚠️ No se encontró {catalogo_path} para sembrar catálogo.")
+        else:
+            print(f"ℹ️ El catálogo ya cuenta con {conteo} productos en la base de datos.")
+    except Exception as e:
+        print(f"⚠️ Error al sembrar catálogo en la base de datos: {e}")
+    finally:
+        try:
+            db.close()
+        except Exception:
+            pass
+
+sembrar_catalogo_si_vacio()
+
+
 # ============================================================
 #  AUTENTICACIÓN REAL (paso 3)
 #
@@ -214,6 +263,8 @@ legacy_face_mesh = None
 
 def init_detector():
     global landmarker_detector, legacy_face_mesh
+    if landmarker_detector is not None or legacy_face_mesh is not None:
+        return
     try:
         from mediapipe.tasks import python
         from mediapipe.tasks.python import vision
@@ -221,23 +272,45 @@ def init_detector():
             print(f"Descargando modelo face_landmarker.task desde {MODEL_URL}...")
             urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
             print("Modelo descargado exitosamente.")
-        base_options = python.BaseOptions(model_asset_path=MODEL_PATH)
+
+        # Intentar cargar buffer binario primero (evita problemas de rutas en contenedores)
+        with open(MODEL_PATH, "rb") as f:
+            model_bytes = f.read()
+
+        base_options = python.BaseOptions(model_asset_buffer=model_bytes)
         options = vision.FaceLandmarkerOptions(
             base_options=base_options,
             output_face_blendshapes=False,
             output_facial_transformation_matrixes=False,
+            min_face_detection_confidence=0.25,
+            min_face_presence_confidence=0.25,
             num_faces=1,
         )
         landmarker_detector = vision.FaceLandmarker.create_from_options(options)
-        print("MediaPipe FaceLandmarker inicializado correctamente.")
+        print("✅ MediaPipe FaceLandmarker inicializado con buffer.")
     except Exception as e:
-        print(f"No se pudo inicializar MediaPipe Tasks ({e}), intentando mp.solutions...")
+        print(f"⚠️ Error al inicializar FaceLandmarker con buffer ({e}), intentando model_asset_path...")
         try:
-            if hasattr(mp, "solutions") and hasattr(mp.solutions, "face_mesh"):
-                legacy_face_mesh = mp.solutions.face_mesh.FaceMesh(static_image_mode=True, max_num_faces=1)
-                print("MediaPipe solutions FaceMesh inicializado.")
+            from mediapipe.tasks import python
+            from mediapipe.tasks.python import vision
+            base_options = python.BaseOptions(model_asset_path=MODEL_PATH)
+            options = vision.FaceLandmarkerOptions(
+                base_options=base_options,
+                min_face_detection_confidence=0.25,
+                num_faces=1,
+            )
+            landmarker_detector = vision.FaceLandmarker.create_from_options(options)
+            print("✅ MediaPipe FaceLandmarker inicializado con model_asset_path.")
         except Exception as e2:
-            print(f"Error al inicializar FaceMesh legacy: {e2}")
+            print(f"⚠️ Error con model_asset_path ({e2}), intentando mp.solutions legacy...")
+            try:
+                if hasattr(mp, "solutions") and hasattr(mp.solutions, "face_mesh"):
+                    legacy_face_mesh = mp.solutions.face_mesh.FaceMesh(
+                        static_image_mode=True, max_num_faces=1, min_detection_confidence=0.25
+                    )
+                    print("✅ MediaPipe solutions FaceMesh legacy inicializado.")
+            except Exception as e3:
+                print(f"❌ Error al inicializar FaceMesh legacy: {e3}")
 
 init_detector()
 
@@ -406,27 +479,61 @@ async def analizar_rostro(
 ):
     try:
         bytes_img = await imagen.read()
-        nparr = np.frombuffer(bytes_img, np.uint8)
-        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-        if img is None:
-            return JSONResponse(status_code=400, content={"error": "Imagen no válida."})
+
+        # 1. Leer imagen y corregir orientación EXIF (típico en fotos de teléfono)
+        from PIL import Image, ImageOps
+        import io
+        img = None
+        img_rgb = None
+        try:
+            pil_img = Image.open(io.BytesIO(bytes_img))
+            pil_img = ImageOps.exif_transpose(pil_img)
+            img_rgb = np.array(pil_img.convert("RGB"))
+            img = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
+        except Exception:
+            pass
+
+        if img_rgb is None or img is None:
+            nparr = np.frombuffer(bytes_img, np.uint8)
+            img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+            if img is None:
+                return JSONResponse(status_code=400, content={"error": "Imagen no válida."})
+            img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
         alto, ancho, _ = img.shape
-        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-        landmarks = None
-        if landmarker_detector is not None:
-            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=img_rgb)
-            resultados = landmarker_detector.detect(mp_image)
-            if resultados.face_landmarks and len(resultados.face_landmarks) > 0:
-                landmarks = resultados.face_landmarks[0]
-        elif legacy_face_mesh is not None:
-            resultados = legacy_face_mesh.process(img_rgb)
-            if resultados.multi_face_landmarks:
-                landmarks = resultados.multi_face_landmarks[0].landmark
+        # Asegurar que el detector esté listo
+        if landmarker_detector is None and legacy_face_mesh is None:
+            init_detector()
+
+        def _extraer_landmarks(rgb_frame):
+            if landmarker_detector is not None:
+                mp_img = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
+                res = landmarker_detector.detect(mp_img)
+                if res.face_landmarks and len(res.face_landmarks) > 0:
+                    return res.face_landmarks[0]
+            elif legacy_face_mesh is not None:
+                res = legacy_face_mesh.process(rgb_frame)
+                if res.multi_face_landmarks and len(res.multi_face_landmarks) > 0:
+                    return res.multi_face_landmarks[0].landmark
+            return None
+
+        # 2. Intentar detección en la orientación inicial
+        landmarks = _extraer_landmarks(img_rgb)
+
+        # 3. Si no detectó, probar rotaciones de 90, 180, 270 grados (fotos tomadas de lado/invertidas)
+        if landmarks is None:
+            for rotacion in (cv2.ROTATE_90_CLOCKWISE, cv2.ROTATE_180, cv2.ROTATE_90_COUNTERCLOCKWISE):
+                frame_rotado = cv2.rotate(img_rgb, rotacion)
+                landmarks = _extraer_landmarks(frame_rotado)
+                if landmarks is not None:
+                    img_rgb = frame_rotado
+                    img = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
+                    alto, ancho, _ = img.shape
+                    break
 
         if landmarks is None:
-            return JSONResponse(status_code=404, content={"error": "No se detectó rostro en la imagen."})
+            return JSONResponse(status_code=404, content={"error": "No se detectó rostro en la imagen. Intenta con una foto mirando de frente y con buena iluminación."})
 
         categorias_pedidas = None
         if categoria and categoria.strip().lower() != "todas":
@@ -636,7 +743,12 @@ def api_catalogo(
     if not incluir_inactivos:
         query = query.filter(Producto.activo.is_(True))
     resultado = {}
-    for p in query.all():
+    productos_en_bd = query.all()
+    if not productos_en_bd:
+        sembrar_catalogo_si_vacio()
+        productos_en_bd = query.all()
+
+    for p in productos_en_bd:
         resultado[p.sku] = {
             "categoria": p.categoria,
             "codigo": p.codigo_resultado,
